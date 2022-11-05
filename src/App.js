@@ -1,56 +1,51 @@
 import NavButtons from "./components/Button";
 import Review from "./components/Review";
-import {useState,useEffect,useReducer} from "react";
-import reviews from "./data";
-function reducer(state,action) {
-  console.log(state,action)
-}
-function App() {
-  console.log(useReducer(reducer,'current state is true'))
+import { useState } from "react";
+import reviewsList from "./data";
 
-  const [reviewers, setReviewers] = useState(reviews)
-  const [index, setIndex] = useState(0)
-  const [person,setPerson]=useState({})
-  useEffect(()=>{
-  // console.log('useEffect')
-  // setReviewers(reviews)
-  setPerson(reviewers[index])
-  },[index])
+function App() {
+  const [index, setIndex] = useState(0);
 
   //nav
-  const nxtClick=()=>{
-    if(index<reviewers.length-1){
-      setIndex(index+1)
-    }else{
-      setIndex(0)
+  const nxtClick = () => {
+    if (index < reviewsList.length - 1) {
+      setIndex(index + 1);
+      return;
     }
+    setIndex(0);
+  };
 
-  }
-  const prevClick=()=>{
-    if(index>0){
-      setIndex(index-1)
-    }else{
-      setIndex(reviewers.length-1)
+  const prevClick = () => {
+    if (index > 0) {
+      setIndex(index - 1);
+      return;
     }
-  }
-  const surpriseMe=()=>{
-    const randomIndex=Math.floor(Math.random() * reviewers.length)
-    setIndex(randomIndex)
-  }
+    setIndex(reviewsList.length - 1);
+  };
+
+  const surpriseMe = () => {
+    const randomIndex = Math.floor(Math.random() * reviewsList.length);
+    setIndex(randomIndex);
+  };
+
   return (
     <main>
       {/* head */}
       <h1 className="title">Our Reviews</h1>
-      <div className='underline'></div>
+      <div className="underline"></div>
       <section className="container">
-      {/* reviews */}
-      <article>
-        <Review person={person} ></Review>
-      </article>
-      <NavButtons nxtClick={nxtClick} prevClick={prevClick} surpriseMe={surpriseMe}/>
+        {/* reviewsList */}
+        <article>
+          <Review person={reviewsList[index]}></Review>
+        </article>
+        <NavButtons
+          nxtClick={nxtClick}
+          prevClick={prevClick}
+          surpriseMe={surpriseMe}
+        />
       </section>
     </main>
-  )
+  );
 }
 
 export default App;
